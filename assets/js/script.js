@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         })
     }
-    
+
     document.getElementById("answer-box").addEventListener("keydown", function (event) {
         if (event.key === "Enter") {
             checkAnswer();
@@ -40,6 +40,8 @@ function runGame(gameType) {
         displayMultiplyQuestion(num1, num2);
     } else if (gameType === "subtract") {
         displaySubtractionQuestion(num1, num2);
+    } else if (gameType === "division") {
+        displayDivisionQuestion(num1, num2);
     } else {
         alert(`Unknown game-type: ${gameType}`);
         throw `Unknown game-type: ${gameType}. Aborting`;
@@ -84,6 +86,8 @@ function calculateCorrectAnswer() {
         return [operand1 * operand2, "multiply"];
     } else if (operator === "-") {
         return [operand1 - operand2, "subtract"];
+    } else if (operator === "/") {
+        return [operand1 / operand2, "division"];
     } else {
         alert(`Unimplemented operator ${operator}`);
         throw `Unimplemented operator ${operator}. Aborting!`;
@@ -131,5 +135,27 @@ function displayMultiplyQuestion(operand1, operand2) {
     document.getElementById('operand1').textContent = operand1;
     document.getElementById('operand2').textContent = operand2;
     document.getElementById('operator').textContent = "x";
+
+}
+
+function displayDivisionQuestion(operand1, operand2) {
+
+    // Calculate the Least Common Multiple of operands 
+        let operandMax = operand1 > operand2 ? operand1 : operand2;
+        let operandMin = operand1 > operand2 ? operand2 : operand1;
+
+        // Assign initial value to lcm and loop
+        let lcm = operandMax;
+        while (lcm % operandMin !== 0) {
+            lcm += operandMax;
+        }
+
+// Assign final values to the operands: LCM and the minimum of the initial two 
+        operand1 = lcm;
+        operand2 = operandMin;
+
+    document.getElementById('operand1').textContent = operand1;
+    document.getElementById('operand2').textContent = operand2;
+    document.getElementById('operator').textContent = "/";
 
 }
